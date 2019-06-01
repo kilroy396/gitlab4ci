@@ -1,6 +1,10 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+# Notes:
+# vmware -> vagrant up --provider vmware_desktop
+# virtualbox -> vagrant up --provider virtualbox
+
 # All Vagrant configuration is done below. The "2" in Vagrant.configure
 # configures the configuration version (we support older styles for
 # backwards compatibility). Please don't change it unless you know what
@@ -59,6 +63,12 @@ Vagrant.configure("2") do |config|
      vb.memory = "4096"
      vb.name = "my-gitlab-ce"
   end
+
+  config.vm.provider "vmware_desktop" do |vmware|
+     # Customize the amount of memory on the VM:
+     vmware.vmx["memsize"] = "4096"
+     vmware.vmx["numvcpus"] = "2"
+  end
   #
   # View the documentation for the provider you are using for more
   # information on available options.
@@ -78,6 +88,7 @@ Vagrant.configure("2") do |config|
       sudo yum update -y
       sudo yum upgrade -y
       #
+      sudo yum install -y open-vm-tools
       sudo yum install -y curl policycoreutils openssh-server openssh-clients
       sudo systemctl enable sshd 
       sudo systemctl start sshd 
